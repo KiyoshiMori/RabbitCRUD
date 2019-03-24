@@ -14,6 +14,15 @@ export default {
 				],
 				exclude: /node_modules/,
 			},
+			{
+				test: /\.css$/,
+				use: {
+					loader: 'css-loader',
+					options: {
+						minimize: true,
+					}
+				}
+			},
 		]
 	},
 	optimization: {
