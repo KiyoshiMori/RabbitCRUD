@@ -3,5 +3,28 @@
   "version": "1.0.0",
   "repository": "git@github.com:KiyoshiMori/RabbitCRUD.git",
   "author": "kiyoshimori <Darkf0x13566@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon --watch config --watch src/server --inspect src/server/index.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.4.0",
+    "babel-loader": "^8.0.5",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-hot-loader": "^4.8.0",
+    "react-universal-component": "^4.0.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-middleware": "^3.6.1",
+    "webpack-flush-chunks": "^2.0.3",
+    "webpack-hot-middleware": "^2.24.3",
+    "webpack-hot-server-middleware": "^0.6.0"
+  }
 }

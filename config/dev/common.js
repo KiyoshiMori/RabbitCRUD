@@ -1,0 +1,41 @@
+export default {
+	mode: 'development',
+	resolve: {
+		extensions: ['.js', '.jsx'],
+	},
+	module: {
+		rules: [
+			{
+				test: /\.jsx?$/,
+				use: [
+					{
+						loader: 'babel-loader',
+					},
+				],
+				exclude: /node_modules/,
+			},
+		]
+	},
+	optimization: {
+		splitChunks: {
+			chunks: 'async',
+			minSize: 30000,
+			minChunks: 1,
+			maxAsyncRequests: 5,
+			maxInitialRequests: 3,
+			automaticNameDelimiter: '~',
+			name: true,
+			cacheGroups: {
+				vendors: {
+					test: /[\\/]node_modules[\\/]/,
+					priority: -10
+				},
+				default: {
+					minChunks: 2,
+					priority: -20,
+					reuseExistingChunk: true
+				}
+			}
+		}
+	}
+};
