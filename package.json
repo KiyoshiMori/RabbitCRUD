@@ -1,0 +1,7 @@
+{
+  "name": "RabbitCRUD",
+  "version": "1.0.0",
+  "repository": "git@github.com:KiyoshiMori/RabbitCRUD.git",
+  "author": "kiyoshimori <Darkf0x13566@gmail.com>",
+  "license": "MIT"
+}
