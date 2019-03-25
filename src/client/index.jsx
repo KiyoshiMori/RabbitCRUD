@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
+import jwt from 'jsonwebtoken';
 import { Query, Mutation } from 'react-apollo';
 
 import { Container } from 'semantic-ui-react';
@@ -30,8 +31,15 @@ export default class extends Component {
 	};
 
 	componentWillMount() {
-		if (global.localStorage.getItem('token')) {
-			this.login();
+		const token = global.localStorage.getItem('token');
+		if (token) {
+			const currentTime = new Date().getTime() / 1000;
+			const expTime = jwt.decode(token)?.exp;
+			if (currentTime < expTime) {
+				this.login();
+			} else {
+				this.logout();
+			}
 		}
 	}
 

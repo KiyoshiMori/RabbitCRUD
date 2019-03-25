@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import jwt from 'jsonwebtoken';
 import { Header, Menu } from 'semantic-ui-react';
 
 export default class HeaderComponent extends Component {
 	render() {
 		const { loggined, logout } = this.props;
+		const username = jwt.decode(localStorage.getItem('token'))?.username;
 
 		return (
 			<Menu size="large">
@@ -11,7 +13,7 @@ export default class HeaderComponent extends Component {
 					{loggined ? (
 						<Menu.Menu>
 							<Menu.Item>
-								Hello, Tester!
+								Hello, {username}!
 							</Menu.Item>
 							<Menu.Item onClick={logout}>
 								Logout

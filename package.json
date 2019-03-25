@@ -38,6 +38,8 @@
     "react-apollo": "^2.5.3",
     "react-dom": "^16.8.5",
     "react-hot-loader": "^4.8.0",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
     "react-universal-component": "^4.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
