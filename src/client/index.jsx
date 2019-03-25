@@ -29,8 +29,8 @@ export default class extends Component {
 		loggined: false,
 	};
 
-	componentDidMount() {
-		if (localStorage.getItem('token')) {
+	componentWillMount() {
+		if (global.localStorage.getItem('token')) {
 			this.login();
 		}
 	}
