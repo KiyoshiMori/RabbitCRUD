@@ -7,19 +7,6 @@ import RabbitsList from '../../components/RabbitsList';
 import { getRabbitsQuery } from '../../../lib/graphql/queries/UserQueries';
 
 export default class MainPage extends Component {
-	state = {
-		rabbits: [
-			{
-				name: 'rabbit1',
-				weight: 5.5,
-			},
-			{
-				name: 'rabbit2',
-				weight: 8.1,
-			},
-		],
-	};
-
 	deleteRabbit = async (fn, rabbit) => {
 		const token = localStorage.getItem('token');
 		const { id, name, weight } = rabbit;

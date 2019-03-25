@@ -36,6 +36,7 @@ export default `
 	extend type Mutation {
 		createRabbit(input: rabbitInput): rabbitResponse
 		deleteRabbit(input: rabbitInput): rabbitResponse
+		editRabbit(input: rabbitInput): rabbitResponse
 		login(input: loginInput): loginResponse
 	}
 `;

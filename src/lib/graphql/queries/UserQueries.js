@@ -17,3 +17,11 @@ mutation createRabbit($token: String, $name: String, $weight: String) {
 	}
 }
 `;
+
+export const editRabbitsQuery = gql`
+mutation editRabbit($token: String, $name: String, $weight: String, $id: Int) {
+	editRabbit(input: { token: $token, name: $name, weight: $weight, id: $id }) {
+		response
+	}
+}
+`;

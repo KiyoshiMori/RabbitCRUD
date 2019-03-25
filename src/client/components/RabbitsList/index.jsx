@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-import { Card, Image, Icon, Modal, Input, Button, Divider } from 'semantic-ui-react';
-import { getRabbitsQuery, createRabbitsQuery } from '../../../lib/graphql/queries/UserQueries';
+import { Card, Image, Icon, Modal, Input, Button, Divider, Header } from 'semantic-ui-react';
+import { getRabbitsQuery, createRabbitsQuery, editRabbitsQuery } from '../../../lib/graphql/queries/UserQueries';
 
 const deleteRabbitMutation = gql`
 mutation DeleteRabbit($token: String, $name: String, $weight: String, $id: Int) {
@@ -18,17 +18,48 @@ export default class RabbitList extends Component {
 		modalOpened: false,
 		rabbitName: '',
 		rabbitWeight: '',
+		selectedRabbit: null,
+		edit: false,
 	};
 
 	handleInput = e => this.setState({ [e.target.name]: e.target.value });
 
-	handleOpen = () => this.setState({ modalOpened: true });
+	handleOpen = params => this.setState({ modalOpened: true, ...params });
 
-	handleClose = () => this.setState({ modalOpened: false });
+	handleClose = () => this.setState({ modalOpened: false, rabbitName: '', rabbitWeight: '', selectedRabbit: null, edit: false });
+
+	handleCreateRabbit = async fn => {
+		const { rabbitWeight, rabbitName } = this.state;
+
+		await fn({
+			variables: {
+				token: localStorage.getItem('token'),
+				weight: rabbitWeight,
+				name: rabbitName,
+			},
+		});
+
+		this.setState({ rabbitName: '', rabbitWeight: '' })
+	};
+
+	handleEditRabbit = async fn => {
+		const { rabbitWeight, rabbitName, selectedRabbit } = this.state;
+
+		await fn({
+			variables: {
+				token: localStorage.getItem('token'),
+				weight: rabbitWeight,
+				name: rabbitName,
+				id: selectedRabbit,
+			},
+		});
+
+		this.setState({ rabbitName: '', rabbitWeight: '', selectedRabbit: null });
+	};
 
 	render() {
 		const { list, deleteRabbit } = this.props;
-		const { modalOpened, rabbitName, rabbitWeight } = this.state;
+		const { modalOpened, rabbitName, rabbitWeight, edit } = this.state;
 
 		if (!list) return <h1>woops</h1>;
 
@@ -57,24 +88,21 @@ export default class RabbitList extends Component {
 							/>
 							<Divider />
 							<Mutation
-								mutation={createRabbitsQuery}
+								mutation={edit ? editRabbitsQuery : createRabbitsQuery }
 								refetchQueries={[{
 									query: getRabbitsQuery,
 									variables: { token: localStorage.getItem('token') },
 								}]}
 								onCompleted={this.handleClose}
 							>
-								{createRabbit => (
+								{rabbitFn => (
 									<Button
 										onClick={() => {
-											createRabbit({
-												variables: {
-													token: localStorage.getItem('token'),
-													weight: rabbitWeight,
-													name: rabbitName,
-												},
-											});
-											this.setState({ rabbitName: '', rabbitWeight: '' })
+											if (edit) {
+												this.handleEditRabbit(rabbitFn);
+											} else {
+												this.handleCreateRabbit(rabbitFn);
+											}
 										}}
 									>
 										Save
@@ -97,8 +125,22 @@ export default class RabbitList extends Component {
 						<Card.Content>
 							<Card.Header>{rabbit.name}</Card.Header>
 							<Card.Meta>
-								<span>{rabbit.weight}</span>
+								<span>Weight: {rabbit.weight}</span>
 							</Card.Meta>
+							<Card.Content
+								extra
+								onClick={() => this.handleOpen({
+									selectedRabbit: rabbit.id,
+									rabbitName: rabbit.name,
+									rabbitWeight: rabbit.weight,
+									edit: true,
+								})}
+							>
+								<a>
+									<Icon name="edit" />
+									edit
+								</a>
+							</Card.Content>
 							<Mutation
 								mutation={deleteRabbitMutation}
 								refetchQueries={[{
@@ -108,10 +150,10 @@ export default class RabbitList extends Component {
 							>
 								{fn => (
 									<Card.Content extra onClick={() => deleteRabbit(fn, rabbit)}>
-										<a>
+										<Header as="a" size="tiny" color="red">
 											<Icon name='remove' />
 											delete
-										</a>
+										</Header>
 									</Card.Content>
 								)}
 							</Mutation>

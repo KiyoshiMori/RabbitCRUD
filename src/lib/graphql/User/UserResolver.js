@@ -20,5 +20,8 @@ export default {
 		async createRabbit(_, { input }) {
 			return await rabbitCUD(input, 'create');
 		},
+		async editRabbit(_, { input }) {
+			return await rabbitCUD(input, 'edit');
+		},
 	},
 };
