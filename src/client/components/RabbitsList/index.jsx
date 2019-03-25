@@ -85,7 +85,7 @@ export default class RabbitList extends Component {
 					onClose={this.handleClose}
 					size="small"
 				>
-					<Modal.Header>Create a rabbit</Modal.Header>
+					<Modal.Header>{edit ? 'Edit a rabbit' : 'Create a rabbit'}</Modal.Header>
 					<Modal.Content image>
 						<Image wrapped size="medium" src="/static/rabbit.png" />
 						<Modal.Description>
