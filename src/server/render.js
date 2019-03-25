@@ -13,7 +13,6 @@ const Html = ({ content, Scripts, Css, Styles }) => (
 			<title>RabbitCRUD</title>
 		</head>
 		<body>
-			<h1>testFromRender!</h1>
 			<div id="root" dangerouslySetInnerHTML={{
 				__html: renderToString(content)
 			}} />
