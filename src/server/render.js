@@ -1,4 +1,5 @@
 import React from 'react';
+import { StaticRouter } from 'react-router-dom';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { flushChunkNames } from 'react-universal-component/server';
@@ -26,11 +27,15 @@ export default ({ clientStats }) => (req, res) => {
 		chunkNames: flushChunkNames()
 	});
 
+	const context = {};
+
 	const content = (
 		<ApolloProvider
 			client={client}
 		>
-			<App/>
+			<StaticRouter location={req.url} context={context}>
+				<App/>
+			</StaticRouter>
 		</ApolloProvider>
 	);
 

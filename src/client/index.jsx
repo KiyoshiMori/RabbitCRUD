@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import jwt from 'jsonwebtoken';
-import { Query, Mutation } from 'react-apollo';
+import { Switch, Route, Redirect } from 'react-router';
 
 import { Container } from 'semantic-ui-react';
 import Header from './components/Header';
@@ -50,15 +50,31 @@ export default class extends Component {
 		localStorage.removeItem('token');
 	};
 
+	LoginCheck = (Component, loggined, link = '/login') => {
+
+		if (loggined) return Component;
+
+		return <Redirect to={link} />;
+	};
+
 	render() {
-		const { text, rabbits, loggined } = this.state;
+		const { loggined } = this.state;
 		console.log(this.props);
 
 		return (
 			<Container>
 				<Header loggined={loggined} logout={this.logout} />
-				{/*<LoginPage login={this.login} loggined={loggined} />*/}
-				<MainPage loggined={loggined} />
+				<Switch>
+					<Route
+						path="/login"
+						render={() => this.LoginCheck(<LoginPage login={this.login} loggined={loggined} />, !loggined, '/list')}
+					/>
+					<Route
+						path="/list"
+						render={() => this.LoginCheck(<MainPage loggined={loggined} />, loggined)}
+					/>
+					<Route render={() => <Redirect to="/login"/>} />
+				</Switch>
 			</Container>
 		);
 	}

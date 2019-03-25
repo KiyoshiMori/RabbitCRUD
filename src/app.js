@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import { ApolloProvider } from 'react-apollo';
 
@@ -11,7 +12,9 @@ const render = Component => {
 	ReactDOM.hydrate(
 		<ApolloProvider client={client}>
 			<AppContainer>
-				<Component />
+				<BrowserRouter>
+					<Component />
+				</BrowserRouter>
 			</AppContainer>
 		</ApolloProvider>,
 		document.getElementById("root")
