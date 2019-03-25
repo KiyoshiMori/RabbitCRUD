@@ -7,7 +7,7 @@ import flushChunks from 'webpack-flush-chunks';
 import App from '../client/index';
 import client from '../lib/graphql';
 
-const Html = ({ content, Scripts }) => (
+const Html = ({ content, Scripts, Css, Styles }) => (
 	<html>
 		<head>
 			<title>RabbitCRUD</title>
@@ -23,7 +23,7 @@ const Html = ({ content, Scripts }) => (
 );
 
 export default ({ clientStats }) => (req, res) => {
-	const { Js } = flushChunks(clientStats, {
+	const { Js, Styles, Css } = flushChunks(clientStats, {
 		chunkNames: flushChunkNames()
 	});
 
@@ -36,7 +36,7 @@ export default ({ clientStats }) => (req, res) => {
 	);
 
 	getDataFromTree(content).then(() => {
-		const html = Html({ content, Scripts: Js });
+		const html = Html({ content, Scripts: Js, Css, Styles });
 
 		console.log(html);
 

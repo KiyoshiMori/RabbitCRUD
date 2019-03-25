@@ -1,9 +1,26 @@
 import path from 'path';
+import nodeExternals from 'webpack-node-externals';
+import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
 import commonConfig from './common';
-import nodeExternals from 'webpack-node-externals'
+
+const { module, ...config } = commonConfig;
 
 export default {
-	...commonConfig,
+	...config,
+	module: {
+		rules: [
+			...module.rules,
+			{
+				test: /\.css$/,
+				use: [
+					MiniCSSExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+					},
+				],
+			},
+		],
+	},
 	externals: nodeExternals(),
 	target: 'node',
 	name: 'server',
@@ -15,4 +32,7 @@ export default {
 		libraryTarget: 'commonjs2',
 	},
 	devtool: 'source-map',
-}
+	plugins: [
+		new MiniCSSExtractPlugin(),
+	]
+};

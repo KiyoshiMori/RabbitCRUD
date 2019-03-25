@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 
+import { Container, Segment, Flag } from 'semantic-ui-react';
+
 const testQuery = gql`
 query Test($text: String) {
 	test(input: { text: $text }) {
@@ -29,6 +31,15 @@ export default class extends Component {
 
 		return (
 			<div>
+				<Container>
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque dolor earum, exercitationem
+						laboriosam libero magnam minima nisi non, obcaecati repellendus reprehenderit sit unde!
+					</p>
+					<Segment>
+						<Flag name="france" />
+					</Segment>
+				</Container>
 				<Query
 					query={testQuery}
 					ssr={false}

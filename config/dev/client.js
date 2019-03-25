@@ -2,8 +2,26 @@ import path from 'path';
 import webpack from 'webpack';
 import commonConfig from './common';
 
+const { module, ...config } = commonConfig;
+
 export default {
-	...commonConfig,
+	...config,
+	module: {
+		rules: [
+			...module.rules,
+			{
+				test: /\.css$/,
+				use: [
+					{
+						loader: 'style-loader',
+					},
+					{
+						loader: 'css-loader',
+					},
+				],
+			},
+		],
+	},
 	name: 'client',
 	entry: {
 		vendor: ['react', 'react-dom'],

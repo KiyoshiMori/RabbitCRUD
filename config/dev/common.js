@@ -15,15 +15,16 @@ export default {
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.css$/,
-				use: {
-					loader: 'css-loader',
+				test: /\.(woff(2)?|ttf|eot|svg|png)(\?v=\d+\.\d+\.\d+)?$/,
+				use: [{
+					loader: 'file-loader',
 					options: {
-						minimize: true,
+						name: '[name].[ext]',
+						outputPath: 'files/'
 					}
-				}
+				}]
 			},
-		]
+		],
 	},
 	optimization: {
 		splitChunks: {
