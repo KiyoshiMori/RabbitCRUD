@@ -71,7 +71,7 @@ export default class RabbitList extends Component {
 		if (!list) return <h1>woops</h1>;
 
 		return (
-			<Card.Group>
+			<Card.Group itemsPerRow={3}>
 				<Modal
 					open={modalOpened}
 					onClose={this.handleClose}
