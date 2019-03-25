@@ -57,6 +57,13 @@ export default class RabbitList extends Component {
 		this.setState({ rabbitName: '', rabbitWeight: '', selectedRabbit: null });
 	};
 
+	weightCheck = e => {
+		const { rabbitWeight } = this.state;
+
+		if (Number(rabbitWeight) > e.target.max) return this.setState({ rabbitWeight: e.target.max });
+		if (Number(rabbitWeight) < e.target.min) return this.setState({ rabbitWeight: e.target.min });
+	};
+
 	render() {
 		const { list, deleteRabbit } = this.props;
 		const { modalOpened, rabbitName, rabbitWeight, edit } = this.state;
@@ -68,11 +75,11 @@ export default class RabbitList extends Component {
 				<Modal
 					open={modalOpened}
 					onClose={this.handleClose}
-					size='small'
+					size="small"
 				>
 					<Modal.Header>Create a rabbit</Modal.Header>
 					<Modal.Content image>
-						<Image wrapped size='medium' src='https://react.semantic-ui.com/images/avatar/large/rachel.png' />
+						<Image wrapped size="medium" src="/static/rabbit.png" />
 						<Modal.Description>
 							<h1>Name</h1>
 							<Input
@@ -83,8 +90,13 @@ export default class RabbitList extends Component {
 							<h1>Weight</h1>
 							<Input
 								onChange={this.handleInput}
+								onBlur={this.weightCheck}
 								name="rabbitWeight"
 								value={rabbitWeight}
+								type="number"
+								min={0.1}
+								max={10}
+								step={0.1}
 							/>
 							<Divider />
 							<Mutation
@@ -117,11 +129,13 @@ export default class RabbitList extends Component {
 						this.handleOpen();
 					}}
 				>
-					<Image src="https://www.pngarts.com/files/3/Plus-Symbol-PNG-Image-with-Transparent-Background.png" />
+					<Card.Content>
+						<Image src="/static/plus.png" />
+					</Card.Content>
 				</Card>
 				{list.map(rabbit => (
 					<Card key={rabbit.id}>
-						<Image src="https://react.semantic-ui.com/images/avatar/large/matthew.png" />
+						<Image src="/static/rabbit.png" />
 						<Card.Content>
 							<Card.Header>{rabbit.name}</Card.Header>
 							<Card.Meta>

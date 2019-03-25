@@ -12,6 +12,8 @@ let isBuilt = false;
 
 graphql(server);
 
+server.use('/static', express.static('static'));
+
 const done = () => {
 	if (isBuilt) return;
 

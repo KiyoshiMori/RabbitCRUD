@@ -23,7 +23,6 @@ export default class MainPage extends Component {
 	};
 
 	render() {
-		const { rabbits } = this.state;
 		const { loggined } = this.props;
 
 		console.log(loggined);
