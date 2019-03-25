@@ -4,15 +4,7 @@ import { Query } from 'react-apollo';
 import { Segment, Grid } from 'semantic-ui-react';
 import RabbitsList from '../../components/RabbitsList';
 
-const getRabbitsQuery = gql`
-query getRabbits ($token: String) {
-  getRabbitsList(input: { token: $token}) {
-    id
-    name
-    weight
-  }
-}
-`;
+import { getRabbitsQuery } from '../../../lib/graphql/queries/UserQueries';
 
 export default class MainPage extends Component {
 	state = {
@@ -26,6 +18,21 @@ export default class MainPage extends Component {
 				weight: 8.1,
 			},
 		],
+	};
+
+	deleteRabbit = async (fn, rabbit) => {
+		const token = localStorage.getItem('token');
+		const { id, name, weight } = rabbit;
+		const res = await fn({
+			variables: {
+				name,
+				weight,
+				id,
+				token,
+			},
+		});
+
+		console.log({ res });
 	};
 
 	render() {
@@ -48,7 +55,7 @@ export default class MainPage extends Component {
 								columns={3}
 							>
 								<Grid.Row centered>
-									<RabbitsList list={data?.getRabbitsList} />
+									<RabbitsList list={data?.getRabbitsList} deleteRabbit={this.deleteRabbit} />
 								</Grid.Row>
 							</Grid>
 						</Segment>

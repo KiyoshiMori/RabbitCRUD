@@ -26,3 +26,21 @@ export const getRabbits = async input => {
 		json: true,
 	});
 };
+
+export const deleteRabbit = async input => {
+	const { id, name, weight, token } = input;
+
+	return await request({
+		uri: `/rabbit/${id}`,
+		method: 'DELETE',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		contentType: 'application/x-www-form-urlencoded',
+		formData: {
+			"rabbit[name]": name,
+			"rabbit[weight]": Number(weight),
+		},
+		json: true,
+	});
+};

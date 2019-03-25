@@ -1,4 +1,4 @@
-import { login, getRabbits } from '../../api/UserApi';
+import { login, getRabbits, deleteRabbit } from '../../api/UserApi';
 
 export default {
 	Query: {
@@ -13,6 +13,9 @@ export default {
 			console.log({ response });
 
 			return response;
+		},
+		async deleteRabbit(_, { input }) {
+			return await deleteRabbit(input);
 		},
 	},
 };

@@ -3,7 +3,7 @@ import rp from 'request-promise';
 export default async (options) => {
 	const { method, uri, contentType, headers, ...rest } = options;
 
-	const response = await rp({
+	const rpOptions = {
 		method: method || 'GET',
 		uri: `http://conquest.weekendads.ru${uri}`,
 		headers: {
@@ -11,7 +11,11 @@ export default async (options) => {
 			"Content-Type": contentType || 'application/json',
 		},
 		...rest,
-	});
+	};
+
+	console.log({ rpOptions });
+
+	const response = await rp(rpOptions);
 
 	console.log({ response });
 
