@@ -1,4 +1,4 @@
-import { login, getRabbits, deleteRabbit } from '../../api/UserApi';
+import { login, getRabbits, rabbitCUD } from '../../api/UserApi';
 
 export default {
 	Query: {
@@ -15,7 +15,10 @@ export default {
 			return response;
 		},
 		async deleteRabbit(_, { input }) {
-			return await deleteRabbit(input);
+			return await rabbitCUD(input, 'delete');
+		},
+		async createRabbit(_, { input }) {
+			return await rabbitCUD(input, 'create');
 		},
 	},
 };

@@ -27,12 +27,15 @@ export const getRabbits = async input => {
 	});
 };
 
-export const deleteRabbit = async input => {
+export const rabbitCUD = async (input, type) => {
 	const { id, name, weight, token } = input;
 
+	const method = type === 'delete' ? 'DELETE' : 'POST';
+	const linkEnd = type === 'create' ? '' : `/${id}`;
+
 	return await request({
-		uri: `/rabbit/${id}`,
-		method: 'DELETE',
+		uri: `/rabbit${linkEnd}`,
+		method,
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},

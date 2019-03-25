@@ -9,3 +9,11 @@ query getRabbits ($token: String) {
   }
 }
 `;
+
+export const createRabbitsQuery = gql`
+mutation createRabbit($token: String, $name: String, $weight: String) {
+	createRabbit(input: { token: $token, name: $name, weight: $weight }) {
+		response
+	}
+}
+`;

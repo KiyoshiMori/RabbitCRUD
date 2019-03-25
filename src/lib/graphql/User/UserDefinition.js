@@ -18,14 +18,14 @@ export default `
 		weight: String
 	}
 	
-	input deleteRabbitInput {
+	input rabbitInput {
 		id: Int
 		name: String
 		weight: String
 		token: String
 	}
 	
-	type deleteRabbitResponse {
+	type rabbitResponse {
 		response: String
 	}
 	
@@ -34,7 +34,8 @@ export default `
 	}
 	
 	extend type Mutation {
-		deleteRabbit(input: deleteRabbitInput): deleteRabbitResponse
+		createRabbit(input: rabbitInput): rabbitResponse
+		deleteRabbit(input: rabbitInput): rabbitResponse
 		login(input: loginInput): loginResponse
 	}
 `;
