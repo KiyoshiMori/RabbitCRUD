@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
+import gql from 'graphql-tag';
+import { Query } from 'react-apollo';
 import { Segment, Grid } from 'semantic-ui-react';
 import RabbitsList from '../../components/RabbitsList';
 
-export default class HeaderComponent extends Component {
+const getRabbitsQuery = gql`
+query getRabbits ($token: String) {
+  getRabbitsList(input: { token: $token}) {
+    id
+    name
+    weight
+  }
+}
+`;
+
+export default class MainPage extends Component {
 	state = {
 		rabbits: [
 			{
@@ -18,17 +30,31 @@ export default class HeaderComponent extends Component {
 
 	render() {
 		const { rabbits } = this.state;
-		return (
-			<Segment>
-				<Grid
-					columns={3}
-				>
-					<Grid.Row centered>
-						<RabbitsList list={rabbits} />
-					</Grid.Row>
-				</Grid>
-			</Segment>
+		const { loggined } = this.props;
 
+		console.log(loggined);
+
+		if (!loggined) return <h1>You are not loggined!</h1>;
+
+		return (
+			<Query
+				query={getRabbitsQuery}
+				variables={{ token: localStorage.getItem('token') }}
+			>
+				{({ loading, data }) => {
+					return (
+						<Segment loading={loading}>
+							<Grid
+								columns={3}
+							>
+								<Grid.Row centered>
+									<RabbitsList list={data?.getRabbitsList} />
+								</Grid.Row>
+							</Grid>
+						</Segment>
+					);
+				}}
+			</Query>
 		);
 	}
 }

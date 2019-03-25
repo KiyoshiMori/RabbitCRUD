@@ -1,7 +1,10 @@
-import { login } from '../../api/UserApi';
+import { login, getRabbits } from '../../api/UserApi';
 
 export default {
 	Query: {
+		async getRabbitsList(_, { input }) {
+			return await getRabbits(input);
+		},
 	},
 	Mutation: {
 		async login(_, { input }) {

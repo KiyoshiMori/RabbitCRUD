@@ -6,6 +6,8 @@ export default class RabbitList extends Component {
 	render() {
 		const { list } = this.props;
 
+		if (!list) return 'woops';
+
 		return (
 			<Card.Group>
 				<Card>

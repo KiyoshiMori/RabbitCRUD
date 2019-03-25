@@ -49,7 +49,8 @@ export default class extends Component {
 		return (
 			<Container>
 				<Header loggined={loggined} logout={this.logout} />
-				<LoginPage login={this.login} loggined={loggined} />
+				{/*<LoginPage login={this.login} loggined={loggined} />*/}
+				<MainPage loggined={loggined} />
 			</Container>
 		);
 	}

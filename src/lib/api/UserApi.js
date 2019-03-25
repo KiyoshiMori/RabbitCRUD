@@ -14,3 +14,15 @@ export const login = async input => {
 		json: true,
 	});
 };
+
+export const getRabbits = async input => {
+	const { token } = input;
+
+	return await request({
+		uri: '/rabbit/list',
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		json: true,
+	});
+};
