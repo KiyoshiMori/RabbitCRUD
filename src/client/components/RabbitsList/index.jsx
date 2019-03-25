@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-import { Card, Image, Icon, Modal, Input, Button, Divider, Header } from 'semantic-ui-react';
+import { Card, Image, Icon, Modal, Input, Button, Divider, Header, Form } from 'semantic-ui-react';
 import { getRabbitsQuery, createRabbitsQuery, editRabbitsQuery } from '../../../lib/graphql/queries/UserQueries';
 
 const deleteRabbitMutation = gql`
@@ -22,11 +22,19 @@ export default class RabbitList extends Component {
 		edit: false,
 	};
 
-	handleInput = e => this.setState({ [e.target.name]: e.target.value });
+	handleInput = (e, { name, value }) => this.setState({ [name]: value });
 
 	handleOpen = params => this.setState({ modalOpened: true, ...params });
 
-	handleClose = () => this.setState({ modalOpened: false, rabbitName: '', rabbitWeight: '', selectedRabbit: null, edit: false });
+	handleClose = () => {
+		this.setState({
+			modalOpened: false,
+			rabbitName: '',
+			rabbitWeight: '',
+			selectedRabbit: null,
+			edit: false,
+		});
+	};
 
 	handleCreateRabbit = async fn => {
 		const { rabbitWeight, rabbitName } = this.state;
@@ -81,24 +89,6 @@ export default class RabbitList extends Component {
 					<Modal.Content image>
 						<Image wrapped size="medium" src="/static/rabbit.png" />
 						<Modal.Description>
-							<h1>Name</h1>
-							<Input
-								onChange={this.handleInput}
-								name="rabbitName"
-								value={rabbitName}
-							/>
-							<h1>Weight</h1>
-							<Input
-								onChange={this.handleInput}
-								onBlur={this.weightCheck}
-								name="rabbitWeight"
-								value={rabbitWeight}
-								type="number"
-								min={0.1}
-								max={10}
-								step={0.1}
-							/>
-							<Divider />
 							<Mutation
 								mutation={edit ? editRabbitsQuery : createRabbitsQuery }
 								refetchQueries={[{
@@ -108,8 +98,8 @@ export default class RabbitList extends Component {
 								onCompleted={this.handleClose}
 							>
 								{rabbitFn => (
-									<Button
-										onClick={() => {
+									<Form
+										onSubmit={() => {
 											if (edit) {
 												this.handleEditRabbit(rabbitFn);
 											} else {
@@ -117,8 +107,36 @@ export default class RabbitList extends Component {
 											}
 										}}
 									>
-										Save
-									</Button>
+										<Form.Input
+											label="Name"
+											onChange={this.handleInput}
+											name="rabbitName"
+											value={rabbitName}
+										/>
+										<Form.Input
+											label="Weight"
+											onChange={this.handleInput}
+											onBlur={this.weightCheck}
+											name="rabbitWeight"
+											value={rabbitWeight}
+											type="number"
+											min={0.1}
+											max={10}
+											step={0.1}
+										/>
+										<Divider />
+										<Button
+											positive
+											disabled={!rabbitWeight || !rabbitName}
+										>
+											Save
+										</Button>
+										<Button
+											onClick={this.handleClose}
+										>
+											Cancel
+										</Button>
+									</Form>
 								)}
 							</Mutation>
 						</Modal.Description>
