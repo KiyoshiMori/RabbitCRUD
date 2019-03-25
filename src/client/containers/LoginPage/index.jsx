@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
-import { Segment, Grid, Input, Header, Button, Divider } from 'semantic-ui-react';
+import { Segment, Grid, Form, Header, Button, Divider, Message } from 'semantic-ui-react';
 
 const loginMutation = gql`
 	mutation Login($login: String, $password: String) {
@@ -15,9 +15,19 @@ export default class LoginPage extends Component {
 	state = {
 		login: '',
 		password: '',
+		touched: [],
 	};
 
-	handleInput = e => this.setState({ [e.target.name]: e.target.value });
+	handleInput = (e, { name, value }) => this.setState({ [name]: value });
+
+	handleTouched = name => {
+		this.setState(state => ({
+			touched: {
+				...state.touched,
+				[name]: true,
+			},
+		}));
+	};
 
 	handleLogin = async fn => {
 		const { login, password } = this.state;
@@ -39,55 +49,66 @@ export default class LoginPage extends Component {
 	};
 
 	render() {
-		const { login, password } = this.state;
+		const { login, password, touched } = this.state;
 		const { loggined } = this.props;
 
 		return (
 			<Grid centered>
 				<Grid.Column width={6}>
 					<Segment
-						textAlign="center"
+						// textAlign="center"
 					>
-						<Header>Login</Header>
-						<Input
-							placholder="Login input.."
-							name="login"
-							value={login}
-							onChange={this.handleInput}
-						/>
-						<Header>Password</Header>
-						<Input
-							placholder="Login input.."
-							type="password"
-							name="password"
-							value={password}
-							onChange={this.handleInput}
-						/>
-						<Divider />
-						<Grid.Column verticalAlign="bottom">
-							<Mutation
-								mutation={loginMutation}
-							>
-								{(loginUser, { loading, error }) => {
-									console.log({ error });
-
-									return (
-										<Button
-											loading={loading}
-											size="large"
-											onClick={() => this.handleLogin(loginUser)}
-										>
-											Login
-										</Button>
-									);
-								}}
-							</Mutation>
-						</Grid.Column>
-						{loggined && (
-							<h1>
-								You are loggined!
-							</h1>
-						)}
+						<Mutation
+							mutation={loginMutation}
+						>
+							{(loginUser, { loading, error }) => {
+								return (
+									<Form
+										error={!!error}
+										onSubmit={() => this.handleLogin(loginUser)}
+									>
+										<Form.Input
+											label="Login"
+											placholder="Login input.."
+											name="login"
+											value={login}
+											onChange={this.handleInput}
+											onBlur={() => this.handleTouched('login')}
+											error={touched?.login && !login}
+										/>
+										<Form.Input
+											label="Password"
+											placholder="Login input.."
+											type="password"
+											name="password"
+											value={password}
+											onChange={this.handleInput}
+											onBlur={() => this.handleTouched('password')}
+											error={touched?.password && !password}
+										/>
+										<Divider/>
+										<Grid.Column verticalAlign="bottom">
+											<Fragment>
+												<Button
+													disabled={!login || !password}
+													loading={loading}
+													size="large"
+												>
+													Login
+												</Button>
+												{error && (
+													<Message
+														error
+														header="Error"
+														content="Bad credentials."
+													/>
+												)}
+											</Fragment>
+										</Grid.Column>
+									</Form>
+								);
+							}}
+						</Mutation>
 					</Segment>
 				</Grid.Column>
 			</Grid>
