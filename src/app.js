@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import { ApolloProvider } from 'react-apollo';
 
 import App from './client';
+import client from './lib/graphql';
 
 const render = Component => {
 	ReactDOM.hydrate(
-		<AppContainer>
-			<Component />
-		</AppContainer>,
+		<ApolloProvider client={client}>
+			<AppContainer>
+				<Component />
+			</AppContainer>
+		</ApolloProvider>,
 		document.getElementById("root")
 	);
 };

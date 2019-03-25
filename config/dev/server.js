@@ -1,8 +1,10 @@
 import path from 'path';
 import commonConfig from './common';
+import nodeExternals from 'webpack-node-externals'
 
 export default {
 	...commonConfig,
+	externals: nodeExternals(),
 	target: 'node',
 	name: 'server',
 	entry: './src/server/render.js',
