@@ -26,16 +26,30 @@ mutation TestMutation($newText: String) {
 export default class extends Component {
 	state = {
 		text: 'tester',
+		loggined: false,
+	};
+
+	componentDidMount() {
+		if (localStorage.getItem('token')) {
+			this.login();
+		}
+	}
+
+	login = () => this.setState({ loggined: true });
+
+	logout = () => {
+		this.setState({ loggined: false });
+		localStorage.removeItem('token');
 	};
 
 	render() {
-		const { text, rabbits } = this.state;
+		const { text, rabbits, loggined } = this.state;
 		console.log(this.props);
 
 		return (
 			<Container>
-				<Header />
-				<LoginPage />
+				<Header loggined={loggined} logout={this.logout} />
+				<LoginPage login={this.login} loggined={loggined} />
 			</Container>
 		);
 	}
