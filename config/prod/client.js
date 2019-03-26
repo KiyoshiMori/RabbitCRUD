@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import WebpackBar from 'webpackbar';
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import BrotilPlugin from 'brotli-webpack-plugin';
@@ -46,5 +47,9 @@ export default {
 			algorithm: 'gzip',
 		}),
 		new BrotilPlugin(),
+		new WebpackBar({
+			color: 'green',
+			name: 'client',
+		}),
 	],
 };

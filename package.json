@@ -5,8 +5,8 @@
   "author": "kiyoshimori <Darkf0x13566@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --watch config --watch src/server --inspect src/server/index.js",
-    "prod": "NODE_ENV=production node src/server/index.js"
+    "dev": "NODE_ENV=development BABEL_ENV=development nodemon --watch config --watch src/server --inspect src/server/index.js",
+    "prod": "NODE_ENV=production BABEL_ENV=production node src/server/index.js"
   },
   "dependencies": {
     "@babel/core": "^7.4.0",
@@ -66,6 +66,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "webpackbar": "^3.1.5"
   }
 }

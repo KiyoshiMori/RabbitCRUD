@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+import WebpackBar from 'webpackbar'
 import nodeExternals from 'webpack-node-externals';
 import MiniCSSExtractPlugin from 'mini-css-extract-plugin';
 import commonConfig from './common';
@@ -41,6 +42,10 @@ export default {
 		new MiniCSSExtractPlugin(),
 		new webpack.optimize.LimitChunkCountPlugin({
 			maxChunks: 1,
+		}),
+		new WebpackBar({
+			color: 'yellow',
+			name: 'server',
 		}),
 	],
 };
