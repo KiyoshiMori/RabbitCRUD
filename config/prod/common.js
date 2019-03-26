@@ -1,5 +1,5 @@
 export default {
-	mode: 'production',
+	mode: 'development',
 	resolve: {
 		extensions: ['.js', '.jsx'],
 	},

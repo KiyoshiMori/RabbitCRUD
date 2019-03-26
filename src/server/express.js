@@ -33,5 +33,5 @@ if (isDev) {
 	require('./webpackCompile').webpackHotLoader(server);
 	done();
 } else {
-	console.log('prod');
+	require('./webpackCompile').webpackSSR(server, done);
 }

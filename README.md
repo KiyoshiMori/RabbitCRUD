@@ -1,2 +1,2 @@
 - Clone this repo
-- yarn && yarn dev
+- yarn && yarn prod

@@ -1,4 +1,5 @@
 import React from 'react';
+import path from 'path';
 import { StaticRouter } from 'react-router-dom';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
@@ -12,6 +13,7 @@ const Html = ({ content, Scripts, Css, Styles }) => (
 	<html>
 		<head>
 			<title>RabbitCRUD</title>
+			<Styles />
 		</head>
 		<body>
 			<div id="root" dangerouslySetInnerHTML={{
@@ -24,7 +26,7 @@ const Html = ({ content, Scripts, Css, Styles }) => (
 
 export default ({ clientStats }) => (req, res) => {
 	const { Js, Styles, Css } = flushChunks(clientStats, {
-		chunkNames: flushChunkNames()
+		chunkNames: flushChunkNames(),
 	});
 
 	const context = {};
@@ -34,7 +36,7 @@ export default ({ clientStats }) => (req, res) => {
 			client={client}
 		>
 			<StaticRouter location={req.url} context={context}>
-				<App/>
+				<App />
 			</StaticRouter>
 		</ApolloProvider>
 	);
